@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.shiro.domain.mapper.PermissionMapper">
+
+	<resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.shiro.domain.entity.Permission">
+		<id column="permissionId" jdbcType="INTEGER" property="permissionId" />
+		<result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="permission_type" jdbcType="VARCHAR" property="permissionType" />
+		<result column="group_name" jdbcType="VARCHAR" property="groupName" />
+		<result column="available" jdbcType="BIT" property="available" />
+		<result column="deleted" jdbcType="BIT" property="deleted" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+	</resultMap>
+
+	<select id="listPermissions" resultType="cn.com.goldwind.md4x.shiro.domain.entity.Permission">
+	SELECT
+		sys_permission.* 
+	FROM
+		sys_role,
+		sys_permission,
+		sys_role_permission 
+	WHERE
+		sys_role.roleId = sys_role_permission.roleId 
+		AND sys_permission.permissionId = sys_role_permission.permissionId 
+		AND sys_permission.available = 1 
+		AND sys_permission.deleted = 0 
+		AND sys_role.roleId=#{roleId}
+	</select>
+	<select id="getPermissionListInPage" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+			* 
+		FROM
+			sys_permission 
+		WHERE
+			deleted = 0 
+			LIMIT #{currIndex} , #{pageSize}
+	</select>
+	<select id="permissionCount" resultType="java.lang.Integer">
+		SELECT
+			count(*) 
+		FROM
+			sys_permission 
+		WHERE
+			deleted =0
+	</select>
+	<select id="getPermissionGroups" resultType="java.lang.String">
+		SELECT DISTINCT
+			group_name 
+		FROM
+			sys_permission 
+		WHERE
+			deleted =0
+	</select>
+</mapper>

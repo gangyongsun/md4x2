@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysResultDownloadMapper">
+    <resultMap id="DownloadResultMap" type="cn.com.goldwind.md4x.business.entity.zeppelin.SysResultDownload">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="file_name" property="fileName" jdbcType="VARCHAR" typeHandler="cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler" />
+        <result column="file_size" property="fileSize" jdbcType="DECIMAL" />
+        <result column="download_time" property="downloadTime" jdbcType="TIMESTAMP" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <association property="project" column="project_id" select="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinProject" />
+    </resultMap>
+
+    <select id="getDownloadListInPage" parameterType="map" resultMap="DownloadResultMap">
+        select id,user_name,file_name,file_size,download_time,project_id
+        from sys_result_download
+        where user_name = #{userName}
+        order by
+        download_time desc
+        limit #{currIndex} , #{pageSize}
+    </select>
+
+    <select id="downloadCount" resultType="java.lang.Integer" parameterType="map">
+        select
+        count(*)
+        from
+        sys_result_download
+        where user_name = #{userName}
+    </select>
+
+    <insert id="insertDownloadRecord" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysResultDownload" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_result_download
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="fileName != null">
+                file_name,
+            </if>
+            <if test="fileSize != null">
+                file_size,
+            </if>
+            <if test="downloadTime != null">
+                download_time,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR,typeHandler=cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler},
+            </if>
+            <if test="fileSize != null">
+                #{fileSize,jdbcType=DECIMAL},
+            </if>
+            <if test="downloadTime != null">
+                #{downloadTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateDownloadById" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysResultDownload">
+        update sys_result_download
+        <set >
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                file_name = #{fileName,jdbcType=VARCHAR,typeHandler=cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler},
+            </if>
+            <if test="fileSize != null">
+                file_size = #{fileSize,jdbcType=DECIMAL},
+            </if>
+            <if test="downloadTime != null">
+                download_time = #{downloadTime,jdbcType=TIMESTAM},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteRecordById" parameterType="java.lang.Integer">
+        delete from sys_result_download
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectDownloadById" resultMap="DownloadResultMap" parameterType="java.lang.Integer">
+        select id,user_name,file_name,file_size,download_time,project_id
+        from sys_result_download
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>

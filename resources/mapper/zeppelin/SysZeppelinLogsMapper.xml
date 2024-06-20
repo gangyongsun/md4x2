@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinLogsMapper">
+    <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinLogs">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="task_flavor" property="taskFlavor" jdbcType="CHAR" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="duration" property="duration" jdbcType="DECIMAL" />
+        <result column="image_id" property="imageId" jdbcType="INTEGER" />
+        <association property="image" column="image_id" select="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinImageMapper.selectByPrimaryKey" />
+    </resultMap>
+
+    <select id="getLogListInPage" parameterType="map" resultMap="BaseResultMap">
+        select id,user_name,task_flavor,image_id,start_time,end_time,duration
+        from sys_zeppelin_logs
+        where user_name = #{userName}
+        order by
+        start_time desc
+        limit #{currIndex} , #{pageSize}
+    </select>
+
+    <select id="logCount" resultType="java.lang.Integer" parameterType="map">
+        select
+        count(*)
+        from sys_zeppelin_logs
+        where user_name = #{userName}
+    </select>
+    
+    <insert id="insertZeppelinLog" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinLogs" useGeneratedKeys="true" keyProperty="id">
+       insert into sys_zeppelin_logs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor,
+            </if>
+            <if test="imageId != null">
+                image_id,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="duration != null">
+                duration,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null">
+                #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null">
+                #{imageId,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=DECIMAL}
+            </if>
+        </trim>
+    </insert>
+    
+    <update id="updateById" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinLogs">
+        update sys_zeppelin_logs
+        <set >
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null" >
+                task_flavor = #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null" >
+                image_id = #{imageId,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="duration != null" >
+                duration = #{duration,jdbcType=DECIMAL}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from sys_zeppelin_logs
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from sys_zeppelin_logs
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <delete id="deleteByUserName" parameterType="java.lang.String">
+        delete from sys_zeppelin_logs
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </delete>
+    
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from sys_zeppelin_logs
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    
+    <select id="getTotalMinuteByUserName" parameterType="java.lang.String" resultType="java.math.BigDecimal">
+        select sum(duration) from sys_zeppelin_logs
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

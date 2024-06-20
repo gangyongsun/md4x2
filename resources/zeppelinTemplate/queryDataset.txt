@@ -1,0 +1,7 @@
+%python
+import AthenaHelper as awsHelper
+db='md4x_private_29514'
+table='md4x_private_29514_20200706155222148'
+sql = "select * from {0} limit 100000".format(table)
+df=awsHelper.execQuery(db,sql)
+z.show(df)

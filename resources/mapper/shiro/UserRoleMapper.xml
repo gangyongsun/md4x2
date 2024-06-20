@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.shiro.domain.mapper.UserRoleMapper">
+	<delete id="deleteByUserIds">
+		DELETE 
+		FROM
+			sys_user_role 
+		WHERE
+			userId IN
+		<foreach collection="list" open="(" separator="," close=")" item="userIdList">
+			#{userIdList}
+		</foreach>
+	</delete>
+
+	<delete id="removeUserGroupRolesByUserId">
+		DELETE 
+		FROM
+			sys_user_role 
+		WHERE
+			id IN (
+				SELECT
+					sys_user_role.id
+				FROM
+					sys_user,
+					sys_role,
+					sys_role_group,
+					sys_user_role_group 
+				WHERE
+					sys_user.userId = sys_user_role.userId 
+					AND sys_role.roleId = sys_user_role.roleId 
+					AND sys_role.roleGroupId = sys_role_group.id 
+					AND sys_user.userId = sys_user_role_group.user_id 
+					AND sys_role_group.id = sys_user_role_group.role_group_id 
+					AND sys_user_role_group.at_group = 1 
+					AND sys_role.available = 1 
+					AND sys_role.deleted = 0 
+				AND sys_user_role.userId = #{userId} 
+			)
+	</delete>
+</mapper>

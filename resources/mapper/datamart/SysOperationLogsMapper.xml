@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.entity.datamart.SysOperationLogsMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datamart.SysOperationLogs" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_nick_name" property="userNickName" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="api_method" property="apiMethod" jdbcType="VARCHAR" />
+    <result column="http_method" property="httpMethod" jdbcType="VARCHAR" />
+    <result column="api_method_desc" property="apiMethodDesc" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="operation_type" property="operationType" jdbcType="VARCHAR" />
+    <result column="operation_unit" property="operationUnit" jdbcType="VARCHAR" />
+    <result column="request_parameters" property="requestParameters" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, user_nick_name, url, api_method, http_method, api_method_desc, client_ip, 
+    operation_type, operation_unit, request_parameters, level, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_operation_logs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_operation_logs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysOperationLogs" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_operation_logs (user_name, user_nick_name, url, 
+      api_method, http_method, api_method_desc, 
+      client_ip, operation_type, operation_unit, 
+      request_parameters, level, create_time
+      )
+    values (#{userName,jdbcType=VARCHAR}, #{userNickName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{apiMethod,jdbcType=VARCHAR}, #{httpMethod,jdbcType=VARCHAR}, #{apiMethodDesc,jdbcType=VARCHAR}, 
+      #{clientIp,jdbcType=VARCHAR}, #{operationType,jdbcType=VARCHAR}, #{operationUnit,jdbcType=VARCHAR}, 
+      #{requestParameters,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysOperationLogs" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_operation_logs
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userNickName != null" >
+        user_nick_name,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="apiMethod != null" >
+        api_method,
+      </if>
+      <if test="httpMethod != null" >
+        http_method,
+      </if>
+      <if test="apiMethodDesc != null" >
+        api_method_desc,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="operationType != null" >
+        operation_type,
+      </if>
+      <if test="operationUnit != null" >
+        operation_unit,
+      </if>
+      <if test="requestParameters != null" >
+        request_parameters,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickName != null" >
+        #{userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="apiMethod != null" >
+        #{apiMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null" >
+        #{httpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="apiMethodDesc != null" >
+        #{apiMethodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="operationUnit != null" >
+        #{operationUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="requestParameters != null" >
+        #{requestParameters,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysOperationLogs" >
+    update sys_operation_logs
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickName != null" >
+        user_nick_name = #{userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="apiMethod != null" >
+        api_method = #{apiMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null" >
+        http_method = #{httpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="apiMethodDesc != null" >
+        api_method_desc = #{apiMethodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        operation_type = #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="operationUnit != null" >
+        operation_unit = #{operationUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="requestParameters != null" >
+        request_parameters = #{requestParameters,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysOperationLogs" >
+    update sys_operation_logs
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_nick_name = #{userNickName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      api_method = #{apiMethod,jdbcType=VARCHAR},
+      http_method = #{httpMethod,jdbcType=VARCHAR},
+      api_method_desc = #{apiMethodDesc,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      operation_type = #{operationType,jdbcType=VARCHAR},
+      operation_unit = #{operationUnit,jdbcType=VARCHAR},
+      request_parameters = #{requestParameters,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <sql id="tableNameSql" >
+     sys_operation_logs 
+  </sql>
+  <select id="searchListByCondition" resultMap="BaseResultMap" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    select 
+    <include refid="Base_Column_List" />
+    from  
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+    <if test="sortBuilder != null and sortBuilder != ''" >
+      order by ${sortBuilder} 
+    </if>
+  </select>
+  <select id="getCountByCondition" resultType="INTEGER" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    SELECT COUNT(*) FROM 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </select>
+  <delete id="deleteByCondition" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    delete from 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </delete>
+  <sql id="varSqlByCondition" >
+    <where >
+      <foreach collection="conditions" item="item" >
+        and ${item.name} 
+        <choose >
+          <when test="item.relation == 'like' or item.relation == 'not like'" >
+            ${item.relation} '%${item.value}%' 
+          </when>
+          <when test="item.relation == 'in' or item.relation == 'not in' " >
+            ${item.relation} (${item.value}) 
+          </when>
+          <when test="item.relation == 'is' or item.relation == 'is not'  " >
+            ${item.relation} ${item.value} 
+          </when>
+          <otherwise >
+            ${item.relation} #{item.value} 
+          </otherwise>
+        </choose>
+      </foreach>
+    </where>
+  </sql>
+</mapper>

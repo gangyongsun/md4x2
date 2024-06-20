@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="cn.com.goldwind.md4x.mybatis.ResultMapDataMapper">
+
+
+	 <sql id="varSql">
+		<where>
+			<if test=" mapConditions != null and mapConditions.searchKey == 'wfname' ">and
+			  (
+				wf_name like concat('%',#{mapConditions.searchValue},'%')
+					or
+				wfid like
+				concat(#{mapConditions.searchValue},'%')
+			  )
+			</if>
+			
+		    <if test=" mapConditions != null and mapConditions.searchKey == 'owner' ">and
+				owner_abb like concat('%',#{mapConditions.searchValue},'%')
+			</if>
+			
+			<if test=" mapConditions != null and mapConditions.searchKey == 'type' ">and
+				model_type = #{mapConditions.searchValue}
+			</if>
+			
+		</where>
+	</sql>
+
+
+	<select id="groupByProvince"
+		resultType="cn.com.goldwind.md4x.mybatis.ResultMapData"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		<!--  SELECT province,count(*) windFarmCount FROM huineng_wind_farm_info -->
+		SELECT province_abb as province,count(DISTINCT wf_name) windFarmCount,CAST(SUM(installed_capacity) as DECIMAL(8,3) )as
+		capacity FROM md4x_wfinfo
+		<include refid="varSql" />
+		GROUP BY province
+	</select>
+
+	<!-- 风场id与风场name的对应 ok -->
+	<select id="groupAllWindFarms"
+		resultType="cn.com.goldwind.md4x.mybatis.ResultMapData"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		<!--  SELECT DISTINCT systemdefinedfarmid,name  FROM huineng_wind_farm_info where name is not null and  (LENGTH(systemdefinedfarmid)=6 or  LENGTH(systemdefinedfarmid)=5) -->
+		select  DISTINCT wfid as systemdefinedfarmid ,wf_name as name  from  md4x_wfinfo order by systemdefinedfarmid desc
+		<!--  where wf_name  is not null and wfid  is not null  -->
+	</select>
+	
+	<!--所有业主 -->
+	<select id="groupAllOwners"
+		resultType="cn.com.goldwind.md4x.mybatis.ResultMapData"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		 <!--  SELECT DISTINCT owner   FROM huineng_wind_farm_info where owner is not null  -->
+		 SELECT DISTINCT owner_abb as owner   FROM  md4x_wfinfo where owner_abb is not null 
+	</select>
+	
+	<!--风场类型 -->
+	<select id="groupAllWindFarmType"
+		resultType="cn.com.goldwind.md4x.mybatis.ResultMapData"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+	    SELECT model_type as  modelType,count(*)  as windFarmCount  FROM md4x_wfinfo GROUP BY model_type ORDER BY  windFarmCount DESC
+	</select>
+	
+	<!--机型 -->
+	<select id="groupAllWindTurbines"
+		resultType="cn.com.goldwind.md4x.mybatis.ResultMapData"
+		parameterType="cn.com.goldwind.md4x.mybatis.ResultMapData">
+	    SELECT  sum(number)  as windTurbineTotals  FROM md4x_wfinfo where wfid = #{wfid}
+	</select>
+	
+	<!-- 风场的风机数 -->    
+	<select id="getWtCount" resultType="cn.com.goldwind.md4x.mybatis.ResultMapData" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+     select wfid,SUM(number) as wtcount from md4x_wfinfo GROUP BY wfid order by wtcount desc
+  	</select>
+  	
+  	<!-- 风场的7s文件数 -->    
+	<select id="get7sFileCount" resultType="cn.com.goldwind.md4x.mybatis.ResultMapData" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+     SELECT wfid, COUNT(*) as filecount FROM aws_trans_record where day>=#{mapConditions.startDate} and day <![CDATA[ < ]]> #{mapConditions.endDate}  GROUP BY wfid order by filecount desc 
+  	</select>
+
+</mapper>

@@ -1,0 +1,12 @@
+%python
+
+import AthenaHelper as awsHelper
+import pandas as pd
+
+datasets = z.get('dataset_id').split(',')
+df_datasets = pd.DataFrame()
+for dataset in datasets:
+    df_dataset = awsHelper.getDataSetInfor(dataset)
+    df_datasets = df_datasets.append(df_dataset, ignore_index=True)
+    
+z.show(df_datasets)

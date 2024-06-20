@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.business.dao.datamart.S3UploadfileIndexMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datamart.S3UploadfileIndex">
+		<id column="id" property="id" />
+		<result column="s3_key" property="s3Key" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, s3_key
+	</sql>
+	<insert id="saveOne" parameterType="cn.com.goldwind.md4x.business.entity.datamart.S3UploadfileIndex">
+		INSERT  INTO 
+			t_s3_uploadfile_index ( s3_key )
+		VALUES(
+		 	#{s3Key}
+		 )
+	</insert>
+	<update id="updateOne" parameterType="cn.com.goldwind.md4x.business.entity.datamart.S3UploadfileIndex">
+		UPDATE 
+			t_s3_uploadfile_index
+		SET  
+			s3_key = #{s3Key}
+		WHERE 
+			id = #{id}
+	</update>
+	
+   	<!-- 通过id查询一条记录 -->
+	<select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select * from t_s3_uploadfile_index where id = #{id}
+	</select>
+	
+	
+</mapper>

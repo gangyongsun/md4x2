@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinImageMapper">
+    <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinImage">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="image_uri" property="imageUri" jdbcType="VARCHAR" />
+        <result column="image_tag" property="imageTag" jdbcType="VARCHAR" />
+        <result column="image_flag" property="imageFlag" jdbcType="VARCHAR" />
+        <result column="image_name" property="imageName" jdbcType="VARCHAR" />
+        <result column="image_des" property="imageDes" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <insert id="insertZeppelinImage" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinImage" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_zeppelin_image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageUri != null">
+                image_uri,
+            </if>
+            <if test="imageTag != null">
+                image_tag,
+            </if>
+            <if test="imageFlag != null">
+                image_flag,
+            </if>
+            <if test="imageName != null">
+                image_name,
+            </if>
+            <if test="imageDes != null">
+                image_des,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageUri != null">
+                #{imageUri,jdbcType=VARCHAR},
+            </if>
+            <if test="imageTag != null">
+                #{imageTag,jdbcType=VARCHAR},
+            </if>
+            <if test="imageFlag != null">
+                #{imageFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="imageName != null">
+                #{imageName,jdbcType=VARCHAR},
+            </if>
+            <if test="imageDes != null">
+                #{imageDes,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <update id="updateByPrimaryKey" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinImage">
+        update sys_zeppelin_image
+        <set >
+            <if test="imageUri != null" >
+                image_uri = #{imageUri,jdbcType=VARCHAR},
+            </if>
+            <if test="imageTag != null" >
+                image_tag = #{imageTag,jdbcType=VARCHAR},
+            </if>
+            <if test="imageFlag != null" >
+                image_flag = #{imageFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="imageName != null" >
+                image_name = #{imageName,jdbcType=VARCHAR},
+            </if>
+            <if test="imageDes != null" >
+                image_des = #{imageDes,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from sys_zeppelin_image
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAllImage" resultMap="BaseResultMap">
+        select * from sys_zeppelin_image
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from sys_zeppelin_image
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

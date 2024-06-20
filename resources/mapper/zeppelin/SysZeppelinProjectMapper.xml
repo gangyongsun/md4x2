@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinProjectMapper">
+    <resultMap id="ProjectResultMap" type="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinProject">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+        <result column="project_des" property="projectDes" jdbcType="VARCHAR" />
+        <result column="dataset_id" property="datasetId" jdbcType="VARCHAR" typeHandler="cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler" />
+        <result column="s3_path" property="s3Path" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="task_flavor" property="taskFlavor" jdbcType="CHAR" />
+        <result column="image_id" property="imageId" jdbcType="INTEGER" />
+        <association property="image" column="image_id" select="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinImageMapper.selectByPrimaryKey" />
+    </resultMap>
+
+    <select id="getProjectListInPage" parameterType="map" resultMap="ProjectResultMap">
+        select id,user_name,task_flavor,image_id,project_name,project_des,dataset_id,s3_path,update_time
+        from sys_zeppelin_project
+        where user_name = #{userName}
+        order by
+        update_time desc
+        limit #{currIndex} , #{pageSize}
+    </select>
+
+    <select id="projectCount" resultType="java.lang.Integer" parameterType="map">
+        select
+        count(*)
+        from
+        sys_zeppelin_project
+        where user_name = #{userName}
+    </select>
+
+    <insert id="insertProject" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinProject" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_zeppelin_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor,
+            </if>
+            <if test="imageId != null">
+                image_id,
+            </if>
+            <if test="projectName != null">
+                project_name,
+            </if>
+            <if test="projectDes != null">
+                project_des,
+            </if>
+            <if test="datasetId != null">
+                dataset_id,
+            </if>
+            <if test="s3Path != null">
+                s3_path,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null">
+                #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null">
+                #{imageId,jdbcType=INTEGER},
+            </if>
+            <if test="projectName != null">
+                #{projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectDes != null">
+                #{projectDes,jdbcType=VARCHAR},
+            </if>
+            <if test="datasetId != null">
+                #{datasetId,jdbcType=VARCHAR,typeHandler=cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler},
+            </if>
+            <if test="s3Path != null">
+                #{s3Path,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="userName != null">
+                user_name = VALUES(user_name),
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor = VALUES(task_flavor),
+            </if>
+            <if test="imageId != null">
+                image_id = VALUES(image_id),
+            </if>
+            <if test="projectName != null">
+                project_name = VALUES(project_name),
+            </if>
+            <if test="projectDes != null">
+                project_des = VALUES(project_des),
+            </if>
+            <if test="datasetId != null">
+                dataset_id = VALUES(dataset_id),
+            </if>
+            <if test="s3Path != null">
+                s3_path = VALUES(s3_path),
+            </if>
+            <if test="updateTime != null" >
+                update_time = VALUES(update_time),
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateProjectById" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinProject">
+        update sys_zeppelin_project
+        <set >
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor = #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null">
+                image_id = #{imageId,jdbcType=INTEGER},
+            </if>
+            <if test="projectName != null">
+                project_name = #{projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectDes != null">
+                project_des = #{projectDes,jdbcType=VARCHAR},
+            </if>
+            <if test="datasetId != null">
+                dataset_id = #{datasetId,jdbcType=VARCHAR,typeHandler=cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler},
+            </if>
+            <if test="s3Path != null">
+                s3_path = #{s3Path,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteProjectById" parameterType="java.lang.Integer">
+        delete from sys_zeppelin_project
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectProjectByUserName" resultMap="ProjectResultMap" parameterType="java.lang.String">
+        select id,user_name,task_flavor,image_id,project_name,project_des,dataset_id,s3_path,update_time
+        from sys_zeppelin_project
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectProjectById" resultMap="ProjectResultMap" parameterType="java.lang.Integer">
+        select id,user_name,task_flavor,image_id,project_name,project_des,dataset_id,s3_path,update_time
+        from sys_zeppelin_project
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="getProjectName" resultType="java.lang.Integer">
+        select count(project_name)
+        from sys_zeppelin_project
+        where user_name = #{userName,jdbcType=VARCHAR} and project_name= #{projectName,jdbcType=VARCHAR}
+    </select>
+
+
+
+</mapper>

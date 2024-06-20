@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWtinfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWtinfo" >
+    <result column="wfid" property="wfid" jdbcType="VARCHAR" />
+    <result column="wf_name" property="wfName" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="wtid" property="wtid" jdbcType="VARCHAR" />
+    <result column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <result column="wt_name" property="wtName" jdbcType="LONGVARCHAR" />
+    <result column="wt_narrate" property="wtNarrate" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    wfid,wf_name, contract_no,wtid,protocol_id,wt_name,wt_narrate
+  </sql>
+  <insert id="insert" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWtinfo" >
+    insert into md4x_wtinfo (wfid, wf_name, contract_no, 
+      wtid, protocol_id, wt_name, 
+      wt_narrate)
+    values (#{wfid,jdbcType=VARCHAR}, #{wfName,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
+      #{wtid,jdbcType=VARCHAR}, #{protocolId,jdbcType=INTEGER}, #{wtName,jdbcType=LONGVARCHAR}, 
+      #{wtNarrate,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWtinfo" >
+    insert into md4x_wtinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wfid != null" >
+        wfid,
+      </if>
+      <if test="wfName != null" >
+        wf_name,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="wtid != null" >
+        wtid,
+      </if>
+      <if test="protocolId != null" >
+        protocol_id,
+      </if>
+      <if test="wtName != null" >
+        wt_name,
+      </if>
+      <if test="wtNarrate != null" >
+        wt_narrate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wfid != null" >
+        #{wfid,jdbcType=VARCHAR},
+      </if>
+      <if test="wfName != null" >
+        #{wfName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="wtid != null" >
+        #{wtid,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolId != null" >
+        #{protocolId,jdbcType=INTEGER},
+      </if>
+      <if test="wtName != null" >
+        #{wtName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="wtNarrate != null" >
+        #{wtNarrate,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <sql id="tableNameSql" >
+     md4x_wtinfo 
+  </sql>
+  <select id="searchListByCondition" resultMap="BaseResultMap" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    select 
+    <include refid="Base_Column_List" />
+    from  
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+    <if test="sortBuilder != null and sortBuilder != ''" >
+      order by ${sortBuilder} 
+    </if>
+  </select>
+  <select id="getCountByCondition" resultType="INTEGER" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    SELECT COUNT(*) FROM 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </select>
+  <delete id="deleteByCondition" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    delete from 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </delete>
+  <sql id="varSqlByCondition" >
+    <where >
+      <foreach collection="conditions" item="item" >
+        and ${item.name} 
+        <choose >
+          <when test="item.relation == 'like' or item.relation == 'not like'" >
+            ${item.relation} '%${item.value}%' 
+          </when>
+          <when test="item.relation == 'in' or item.relation == 'not in' " >
+            ${item.relation} (${item.value}) 
+          </when>
+          <when test="item.relation == 'is' or item.relation == 'is not'  " >
+            ${item.relation} ${item.value} 
+          </when>
+          <otherwise >
+            ${item.relation} #{item.value} 
+          </otherwise>
+        </choose>
+      </foreach>
+    </where>
+  </sql>
+  
+  	<sql id="varSql">
+		<where>
+			<if test=" mapConditions != null and mapConditions.wfName != null ">and
+				wf_name = #{mapConditions.wfName}
+			</if>
+		</where>
+	</sql>
+
+	<select id="getCountByConditionWithPage" resultType="INTEGER"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		SELECT COUNT(*) FROM
+		<include refid="tableNameSql" />
+		<include refid="varSql" />
+	</select>
+
+	<!-- 对应 BaseDaoImpl中的 selectPageBy(String statement,Condition condition) -->
+	<select id="searchPageBy" resultMap="BaseResultMap"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableNameSql" />
+		<include refid="varSql" />
+		<if test="sortBuilder != null and sortBuilder != ''">
+			order by ${sortBuilder}
+		</if>
+	</select>
+	
+</mapper>

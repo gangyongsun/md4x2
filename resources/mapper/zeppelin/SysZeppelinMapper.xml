@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinMapper">
+    <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelin">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+        <result column="elb_name" property="elbName" jdbcType="VARCHAR" />
+        <result column="elb_arn" property="elbArn" jdbcType="VARCHAR" />
+        <result column="elb_listener_arn" property="elbListenerArn" jdbcType="VARCHAR" />
+        <result column="cluster_name" property="clusterName" jdbcType="VARCHAR" />
+        <result column="task_role_arn" property="taskRoleArn" jdbcType="VARCHAR" />
+        <result column="task_subnet" property="taskSubnet" jdbcType="VARCHAR" typeHandler="cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler"/>
+        <result column="security_group_id" property="securityGroupId" jdbcType="VARCHAR" />
+        <result column="instance_name" property="instanceName" jdbcType="VARCHAR" />
+        <result column="container_id" property="containerId" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="total_minute" property="totalMinute" jdbcType="DECIMAL" />
+        <result column="bitbucket_url" property="bitbucketUrl" jdbcType="VARCHAR" />
+        <result column="bitbucket_name" property="bitbucketName" jdbcType="VARCHAR" />
+        <result column="bitbucket_pwd" property="bitbucketPwd" jdbcType="VARCHAR" />
+        <result column="instance_status" property="instanceStatus" jdbcType="VARCHAR" />
+        <result column="zeppelin_url" property="zeppelinUrl" jdbcType="VARCHAR" />
+        <result column="rule_arn" property="ruleArn" jdbcType="VARCHAR" />
+        <result column="target_group_arn" property="targetGroupArn" jdbcType="VARCHAR" />
+        <result column="task_arn" property="taskArn" jdbcType="VARCHAR" />
+        <result column="task_flavor" property="taskFlavor" jdbcType="CHAR" />
+        <result column="log_id" property="logId" jdbcType="INTEGER" />
+        <result column="image_id" property="imageId" jdbcType="INTEGER" />
+        <association property="image" column="image_id" select="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinImageMapper.selectByPrimaryKey" />
+    </resultMap>
+    
+    <resultMap id="InfoResultMap" type="cn.com.goldwind.md4x.business.bo.ZeppelinInfoVO">
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+        <result column="cluster_name" property="clusterName" jdbcType="VARCHAR" />
+        <result column="task_flavor" property="taskFlavor" jdbcType="CHAR" />
+        <result column="instance_name" property="instanceName" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="total_minute" property="totalMinute" jdbcType="DECIMAL" />
+        <result column="bitbucket_url" property="bitbucketUrl" jdbcType="VARCHAR" />
+        <result column="bitbucket_name" property="bitbucketName" jdbcType="VARCHAR" />
+        <result column="instance_status" property="instanceStatus" jdbcType="VARCHAR" />
+        <association property="image" column="image_id" select="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinImageMapper.selectByPrimaryKey" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, user_name, user_pwd, cluster_name,elb_arn, elb_listener_arn, task_role_arn, task_flavor, instance_name, image_id,
+        update_time, total_minute,bitbucket_url,bitbucket_name,bitbucket_pwd,instance_status,
+        rule_arn, target_group_arn, task_arn, zeppelin_url,log_id
+    </sql>
+
+    <sql id="Info_Column_List" >
+        user_name, user_pwd, cluster_name, task_flavor, instance_name, image_id,
+        update_time, total_minute,bitbucket_url,bitbucket_name,instance_status
+    </sql>
+
+    <sql id="Arn_Column_List" >
+        id,cluster_name, elb_arn, elb_listener_arn, task_role_arn,instance_status, rule_arn, target_group_arn, task_arn
+    </sql>
+
+    <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from
+        sys_zeppelin
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectInfoByUserName" resultMap="InfoResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Info_Column_List" />
+        from
+        sys_zeppelin
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from
+        sys_zeppelin
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectArnByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Arn_Column_List" />
+        from
+        sys_zeppelin
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    
+    <update id="updateByUserName" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelin">
+        update sys_zeppelin
+        <set>
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPwd != null" >
+                user_pwd = #{userPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="elbName != null" >
+                elb_name = #{elbName,jdbcType=VARCHAR},
+            </if>
+            <if test="elbArn != null" >
+                elb_arn = #{elbArn,jdbcType=VARCHAR},
+            </if>
+            <if test="elbListenerArn != null" >
+                elb_listener_arn = #{elbListenerArn,jdbcType=VARCHAR},
+            </if>
+            <if test="clusterName != null" >
+                cluster_name = #{clusterName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskRoleArn != null" >
+                task_role_arn = #{taskRoleArn,jdbcType=VARCHAR},
+            </if>
+            <if test="taskSubnet != null" >
+                task_subnet = #{taskSubnet,jdbcType=VARCHAR},
+            </if>
+            <if test="securityGroupId != null" >
+                security_group_id = #{securityGroupId,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null" >
+                task_flavor = #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null" >
+                image_id = #{imageId,jdbcType=INTEGER},
+            </if>
+            <if test="instanceName != null" >
+                instance_name = #{instanceName,jdbcType=VARCHAR},
+            </if>
+            <if test="containerId != null" >
+                container_id = #{containerId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="totalMinute != null" >
+                total_minute = #{totalMinute,jdbcType=DECIMAL},
+            </if>
+            <if test="bitbucketUrl != null" >
+                bitbucket_url = #{bitbucketUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bitbucketName != null" >
+                bitbucket_name = #{bitbucketName,jdbcType=VARCHAR},
+            </if>
+            <if test="bitbucketPwd != null" >
+                bitbucket_pwd = #{bitbucketPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="instanceStatus != null" >
+                instance_status = #{instanceStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="zeppelinUrl != null" >
+                zeppelin_url = #{zeppelinUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleArn != null" >
+                rule_arn = #{ruleArn,jdbcType=VARCHAR},
+            </if>
+            <if test="targetGroupArn != null" >
+                target_group_arn = #{targetGroupArn,jdbcType=VARCHAR},
+            </if>
+            <if test="taskArn != null" >
+                task_arn = #{taskArn,jdbcType=VARCHAR},
+            </if>
+            <if test="logId != null" >
+                log_id = #{logId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </update>
+    
+    <insert id="insertZeppelin" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelin" useGeneratedKeys="true" keyProperty="id" keyColumn="user_name">
+        insert into sys_zeppelin
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="userPwd != null" >
+                user_pwd,
+            </if>
+            <if test="elbName != null" >
+                elb_name,
+            </if>
+            <if test="elbArn != null" >
+                elb_arn,
+            </if>
+            <if test="elbListenerArn != null" >
+                elb_listener_arn,
+            </if>
+            <if test="clusterName != null" >
+                cluster_name,
+            </if>
+            <if test="taskRoleArn != null" >
+                task_role_arn,
+            </if>
+            <if test="taskSubnet != null" >
+                task_subnet,
+            </if>
+            <if test="securityGroupId != null" >
+                security_group_id,
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor,
+            </if>
+            <if test="imageId != null">
+                image_id,
+            </if>
+            <if test="instanceName != null" >
+                instance_name,
+            </if>
+            <if test="containerId != null" >
+                container_id,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+            <if test="totalMinute != null" >
+                total_minute,
+            </if>
+            <if test="bitbucketUrl != null" >
+                bitbucket_url,
+            </if>
+            <if test="bitbucketName != null" >
+                bitbucket_name,
+            </if>
+            <if test="bitbucketPwd != null" >
+                bitbucket_pwd,
+            </if>
+            <if test="instanceStatus != null" >
+                instance_status,
+            </if>
+            <if test="zeppelinUrl != null" >
+                zeppelin_url,
+            </if>
+            <if test="ruleArn != null" >
+                rule_arn,
+            </if>
+            <if test="targetGroupArn != null" >
+                target_group_arn,
+            </if>
+            <if test="taskArn != null" >
+                task_arn,
+            </if>
+            <if test="logId != null">
+                log_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPwd != null" >
+                #{userPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="elbName != null" >
+                #{elbName,jdbcType=VARCHAR},
+            </if>
+            <if test="elbArn != null" >
+                #{elbArn,jdbcType=VARCHAR},
+            </if>
+            <if test="elbListenerArn != null" >
+                #{elbListenerArn,jdbcType=VARCHAR},
+            </if>
+            <if test="clusterName != null" >
+                #{clusterName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskRoleArn != null" >
+                #{taskRoleArn,jdbcType=VARCHAR},
+            </if>
+            <if test="taskSubnet != null" >
+                #{taskSubnet,jdbcType=VARCHAR,typeHandler=cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler},
+            </if>
+            <if test="securityGroupId != null" >
+                #{securityGroupId,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null">
+                #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null">
+                #{imageId,jdbcType=INTEGER},
+            </if>
+            <if test="instanceName != null" >
+                #{instanceName,jdbcType=VARCHAR},
+            </if>
+            <if test="containerId != null" >
+                #{containerId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="totalMinute != null" >
+                #{totalMinute,jdbcType=DECIMAL},
+            </if>
+            <if test="bitbucketUrl != null" >
+                #{bitbucketUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bitbucketName != null" >
+                #{bitbucketName,jdbcType=VARCHAR},
+            </if>
+            <if test="bitbucketPwd != null" >
+                #{bitbucketPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="instanceStatus != null" >
+                #{instanceStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="zeppelinUrl != null" >
+                #{zeppelinUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleArn != null" >
+                #{ruleArn,jdbcType=VARCHAR},
+            </if>
+            <if test="targetGroupArn != null" >
+                #{targetGroupArn,jdbcType=VARCHAR},
+            </if>
+            <if test="taskArn != null" >
+                #{taskArn,jdbcType=VARCHAR},
+            </if>
+            <if test="logId != null">
+                #{logId,jdbcType=INTEGER},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="userName != null" >
+                user_name = VALUES(user_name),
+            </if>
+            <if test="userPwd != null" >
+                user_pwd = VALUES(user_pwd),
+            </if>
+            <if test="elbName != null" >
+                elb_name = VALUES(elb_name),
+            </if>
+            <if test="elbArn != null" >
+                elb_arn = VALUES(elb_arn),
+            </if>
+            <if test="elbListenerArn != null" >
+                elb_listener_arn = VALUES(elb_listener_arn),
+            </if>
+            <if test="clusterName != null" >
+                cluster_name = VALUES(cluster_name),
+            </if>
+            <if test="taskRoleArn != null" >
+                task_role_arn = VALUES(task_role_arn),
+            </if>
+            <if test="taskSubnet != null" >
+                task_subnet = VALUES(task_subnet),
+            </if>
+            <if test="securityGroupId != null" >
+                security_group_id = VALUES(security_group_id),
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor = VALUES(task_flavor),
+            </if>
+            <if test="imageId != null">
+                image_id = VALUES(image_id),
+            </if>
+            <if test="instanceName != null" >
+                instance_name = VALUES(instance_name),
+            </if>
+            <if test="containerId != null" >
+                container_id = VALUES(container_id),
+            </if>
+            <if test="updateTime != null" >
+                update_time = VALUES(update_time),
+            </if>
+            <if test="totalMinute != null" >
+                total_minute = VALUES(total_hours),
+            </if>
+            <if test="bitbucketUrl != null" >
+                bitbucket_url = VALUES(bitbucket_url),
+            </if>
+            <if test="bitbucketName != null" >
+                bitbucket_name = VALUES(bitbucket_name),
+            </if>
+            <if test="bitbucketPwd != null" >
+                bitbucket_pwd = VALUES(bitbucket_pwd),
+            </if>
+            <if test="instanceStatus != null" >
+                instance_status = VALUES(instance_status),
+            </if>
+            <if test="zeppelinUrl != null" >
+                zeppelin_url = VALUES(zeppelin_url),
+            </if>
+            <if test="ruleArn != null" >
+                rule_arn = VALUES(rule_arn),
+            </if>
+            <if test="targetGroupArn != null" >
+                target_group_arn = VALUES(target_group_arn),
+            </if>
+            <if test="taskArn != null" >
+                task_arn = VALUES(task_arn),
+            </if>
+            <if test="logId != null">
+                log_id = VALUES(log_id),
+            </if>
+        </trim>
+    </insert>
+
+
+    
+    <delete id="deleteByUserName" parameterType="java.lang.String">
+        delete from sys_zeppelin
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

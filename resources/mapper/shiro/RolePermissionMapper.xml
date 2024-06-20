@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.shiro.domain.mapper.RolePermissionMapper">
+	<delete id="deleteByRoleIds">
+		DELETE 
+		FROM
+			sys_role_permission 
+		WHERE
+			roleId IN
+		<foreach collection="list" open="(" separator="," close=")" item="roleIdList">
+			#{roleIdList}
+		</foreach>
+	</delete>
+	
+	<insert id="insertRolePermissions">
+		INSERT INTO sys_role_permission ( roleId, permissionId )
+		VALUES
+		<foreach collection="rolePermissionList" item="rolePermission" separator=",">
+			(#{rolePermission.roleId},#{rolePermission.permissionId})
+		</foreach>
+	</insert>
+</mapper>

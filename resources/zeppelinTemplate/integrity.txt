@@ -1,0 +1,10 @@
+%python
+
+wtids=['632500001','632500002','632500003','632500004','632500005']
+start_time='2019-04-01 23:59:59'
+end_time = '2019-05-01 00:00:00'
+db = 'md4x_public_all'
+table = 'md4x_public_all_20200701101328566'
+df_completeness = awsHelper.getCompletenessByWtid(db, table,start_time,end_time, wtids)
+
+z.show(df_completeness)

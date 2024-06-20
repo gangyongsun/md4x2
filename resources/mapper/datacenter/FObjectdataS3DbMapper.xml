@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3DbMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db" extends="BaseResultMap" >
+    <result column="dir_name" property="dirName" jdbcType="LONGVARCHAR" />
+    <result column="wfid" property="wfid" jdbcType="LONGVARCHAR" />
+    <result column="year" property="year" jdbcType="LONGVARCHAR" />
+    <result column="type" property="type" jdbcType="LONGVARCHAR" />
+    <result column="data_date" property="dataDate" jdbcType="LONGVARCHAR" />
+    <result column="wtid" property="wtid" jdbcType="LONGVARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="LONGVARCHAR" />
+    <result column="month" property="month" jdbcType="LONGVARCHAR" />
+    <result column="data_month" property="dataMonth" jdbcType="LONGVARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    id,dir_name, wfid, year, type, data_date, wtid, file_name, month, data_month
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from f_objectdata_S3_db
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from f_objectdata_S3_db
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db" useGeneratedKeys="true" keyProperty="id" >
+    insert into f_objectdata_S3_db (dir_name, wfid, year, 
+      type, data_date, wtid, 
+      file_name, month, data_month
+      )
+    values (#{dirName,jdbcType=LONGVARCHAR}, #{wfid,jdbcType=LONGVARCHAR}, #{year,jdbcType=LONGVARCHAR}, 
+      #{type,jdbcType=LONGVARCHAR}, #{dataDate,jdbcType=LONGVARCHAR}, #{wtid,jdbcType=LONGVARCHAR}, 
+      #{fileName,jdbcType=LONGVARCHAR}, #{month,jdbcType=LONGVARCHAR}, #{dataMonth,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db" useGeneratedKeys="true" keyProperty="id" >
+    insert into f_objectdata_S3_db
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dirName != null" >
+        dir_name,
+      </if>
+      <if test="wfid != null" >
+        wfid,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="dataDate != null" >
+        data_date,
+      </if>
+      <if test="wtid != null" >
+        wtid,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="dataMonth != null" >
+        data_month,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dirName != null" >
+        #{dirName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="wfid != null" >
+        #{wfid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dataDate != null" >
+        #{dataDate,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="wtid != null" >
+        #{wtid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dataMonth != null" >
+        #{dataMonth,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db" >
+    update f_objectdata_S3_db
+    <set >
+      <if test="dirName != null" >
+        dir_name = #{dirName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="wfid != null" >
+        wfid = #{wfid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dataDate != null" >
+        data_date = #{dataDate,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="wtid != null" >
+        wtid = #{wtid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="month != null" >
+        month = #{month,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dataMonth != null" >
+        data_month = #{dataMonth,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db" >
+    update f_objectdata_S3_db
+    set dir_name = #{dirName,jdbcType=LONGVARCHAR},
+      wfid = #{wfid,jdbcType=LONGVARCHAR},
+      year = #{year,jdbcType=LONGVARCHAR},
+      type = #{type,jdbcType=LONGVARCHAR},
+      data_date = #{dataDate,jdbcType=LONGVARCHAR},
+      wtid = #{wtid,jdbcType=LONGVARCHAR},
+      file_name = #{fileName,jdbcType=LONGVARCHAR},
+      month = #{month,jdbcType=LONGVARCHAR},
+      data_month = #{dataMonth,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <sql id="tableNameSql" >
+     f_objectdata_S3_db 
+  </sql>
+  <select id="searchListByCondition" resultMap="BaseResultMap" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    select 
+    <include refid="Base_Column_List" />
+    from  
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+    <if test="sortBuilder != null and sortBuilder != ''" >
+      order by ${sortBuilder} 
+    </if>
+  </select>
+  <select id="getCountByCondition" resultType="INTEGER" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    SELECT COUNT(*) FROM 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </select>
+  <delete id="deleteByCondition" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    delete from 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </delete>
+  <sql id="varSqlByCondition" >
+    <where >
+      <foreach collection="conditions" item="item" >
+        and ${item.name} 
+        <choose >
+          <when test="item.relation == 'like' or item.relation == 'not like'" >
+            ${item.relation} '%${item.value}%' 
+          </when>
+          <when test="item.relation == 'in' or item.relation == 'not in' " >
+            ${item.relation} (${item.value}) 
+          </when>
+          <when test="item.relation == 'is' or item.relation == 'is not'  " >
+            ${item.relation} ${item.value} 
+          </when>
+          <otherwise >
+            ${item.relation} #{item.value} 
+          </otherwise>
+        </choose>
+      </foreach>
+    </where>
+  </sql>
+  
+  
+  
+  	<select id="getAllByMonth"
+		resultType="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		select data_month as dataMonth ,count(*) as count  from f_objectdata_S3_db  where wfid = #{mapConditions.wfid} and type=#{mapConditions.dataType} and data_date <![CDATA[ >= ]]> #{mapConditions.startDate} and data_date <![CDATA[ < ]]> #{mapConditions.endDate} group by data_month
+	</select>
+	
+	<select id="getByMonth"
+		resultType="cn.com.goldwind.md4x.business.entity.datacenter.FObjectdataS3Db"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		
+		SELECT a.wtid,a.data_month AS dataMonth,count(*) AS count FROM
+		(
+		  SELECT  wtid,data_date,data_month FROM  f_objectdata_S3_db WHERE wfid = #{mapConditions.wfid} AND wtid IN  ${mapConditions.wtids}  and type=#{mapConditions.dataType}  and data_date>=#{mapConditions.startDate} and data_date <![CDATA[ < ]]> #{mapConditions.endDate} GROUP BY wtid,data_date
+		) a
+		GROUP BY a.wtid,a.data_month
+	</select>
+	
+</mapper>

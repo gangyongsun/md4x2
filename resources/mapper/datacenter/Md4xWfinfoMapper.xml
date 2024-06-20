@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWfinfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWfinfo" >
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="province_abb" property="provinceAbb" jdbcType="VARCHAR" />
+    <result column="wfid" property="wfid" jdbcType="VARCHAR" />
+    <result column="wf_name" property="wfName" jdbcType="VARCHAR" />
+    <result column="owner" property="owner" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="capacity" property="capacity" jdbcType="VARCHAR" />
+    <result column="model_type" property="modelType" jdbcType="VARCHAR" />
+    <result column="wtype" property="wtype" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="organization" property="organization" jdbcType="VARCHAR" />
+    <result column="owner_abb" property="ownerAbb" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="project_status" property="projectStatus" jdbcType="VARCHAR" />
+    <result column="installed_capacity" property="installedCapacity" jdbcType="DOUBLE" />
+    <result column="signing_date" property="signingDate" jdbcType="VARCHAR" />
+    <result column="tower" property="tower" jdbcType="VARCHAR" />
+    <result column="tower_type" property="towerType" jdbcType="VARCHAR" />
+    <result column="project_stage" property="projectStage" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="longitude_wind_field" property="longitudeWindField" jdbcType="VARCHAR" />
+    <result column="latitude_wind_field" property="latitudeWindField" jdbcType="VARCHAR" />
+    <result column="wind_zone" property="windZone" jdbcType="VARCHAR" />
+    <result column="terrain" property="terrain" jdbcType="VARCHAR" />
+    <result column="altitude_maximun" property="altitudeMaximun" jdbcType="VARCHAR" />
+    <result column="altitude_minimun" property="altitudeMinimun" jdbcType="VARCHAR" />
+    <result column="temperature_maximun" property="temperatureMaximun" jdbcType="VARCHAR" />
+    <result column="temperature_minimun" property="temperatureMinimun" jdbcType="VARCHAR" />
+    <result column="annual_average_thunderstorms" property="annualAverageThunderstorms" jdbcType="REAL" />
+    <result column="main_wind_direction" property="mainWindDirection" jdbcType="VARCHAR" />
+    <result column="annual_average_wind_speed" property="annualAverageWindSpeed" jdbcType="REAL" />
+    <result column="updated_time" property="updatedTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    province, province_abb, wfid, 
+      wf_name, owner, contract_no, 
+      model, number, capacity, 
+      model_type, wtype, region, 
+      organization, owner_abb, area, 
+      project_status, installed_capacity, signing_date, 
+      tower, tower_type, project_stage, 
+      country, city, longitude_wind_field, 
+      latitude_wind_field, wind_zone, terrain, 
+      altitude_maximun, altitude_minimun, temperature_maximun, 
+      temperature_minimun, annual_average_thunderstorms, 
+      main_wind_direction, annual_average_wind_speed, 
+      updated_time
+  </sql>
+  
+  <insert id="insert" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWfinfo" >
+    insert into md4x_wfinfo (province, province_abb, wfid, 
+      wf_name, owner, contract_no, 
+      model, number, capacity, 
+      model_type, wtype, region, 
+      organization, owner_abb, area, 
+      project_status, installed_capacity, signing_date, 
+      tower, tower_type, project_stage, 
+      country, city, longitude_wind_field, 
+      latitude_wind_field, wind_zone, terrain, 
+      altitude_maximun, altitude_minimun, temperature_maximun, 
+      temperature_minimun, annual_average_thunderstorms, 
+      main_wind_direction, annual_average_wind_speed, 
+      updated_time)
+    values (#{province,jdbcType=VARCHAR}, #{provinceAbb,jdbcType=VARCHAR}, #{wfid,jdbcType=VARCHAR}, 
+      #{wfName,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
+      #{model,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{capacity,jdbcType=VARCHAR}, 
+      #{modelType,jdbcType=VARCHAR}, #{wtype,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
+      #{organization,jdbcType=VARCHAR}, #{ownerAbb,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{projectStatus,jdbcType=VARCHAR}, #{installedCapacity,jdbcType=DOUBLE}, #{signingDate,jdbcType=VARCHAR}, 
+      #{tower,jdbcType=VARCHAR}, #{towerType,jdbcType=VARCHAR}, #{projectStage,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{longitudeWindField,jdbcType=VARCHAR}, 
+      #{latitudeWindField,jdbcType=VARCHAR}, #{windZone,jdbcType=VARCHAR}, #{terrain,jdbcType=VARCHAR}, 
+      #{altitudeMaximun,jdbcType=VARCHAR}, #{altitudeMinimun,jdbcType=VARCHAR}, #{temperatureMaximun,jdbcType=VARCHAR}, 
+      #{temperatureMinimun,jdbcType=VARCHAR}, #{annualAverageThunderstorms,jdbcType=REAL}, 
+      #{mainWindDirection,jdbcType=VARCHAR}, #{annualAverageWindSpeed,jdbcType=REAL}, 
+      #{updatedTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.Md4xWfinfo" >
+    insert into md4x_wfinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="provinceAbb != null" >
+        province_abb,
+      </if>
+      <if test="wfid != null" >
+        wfid,
+      </if>
+      <if test="wfName != null" >
+        wf_name,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="capacity != null" >
+        capacity,
+      </if>
+      <if test="modelType != null" >
+        model_type,
+      </if>
+      <if test="wtype != null" >
+        wtype,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="organization != null" >
+        organization,
+      </if>
+      <if test="ownerAbb != null" >
+        owner_abb,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="projectStatus != null" >
+        project_status,
+      </if>
+      <if test="installedCapacity != null" >
+        installed_capacity,
+      </if>
+      <if test="signingDate != null" >
+        signing_date,
+      </if>
+      <if test="tower != null" >
+        tower,
+      </if>
+      <if test="towerType != null" >
+        tower_type,
+      </if>
+      <if test="projectStage != null" >
+        project_stage,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="longitudeWindField != null" >
+        longitude_wind_field,
+      </if>
+      <if test="latitudeWindField != null" >
+        latitude_wind_field,
+      </if>
+      <if test="windZone != null" >
+        wind_zone,
+      </if>
+      <if test="terrain != null" >
+        terrain,
+      </if>
+      <if test="altitudeMaximun != null" >
+        altitude_maximun,
+      </if>
+      <if test="altitudeMinimun != null" >
+        altitude_minimun,
+      </if>
+      <if test="temperatureMaximun != null" >
+        temperature_maximun,
+      </if>
+      <if test="temperatureMinimun != null" >
+        temperature_minimun,
+      </if>
+      <if test="annualAverageThunderstorms != null" >
+        annual_average_thunderstorms,
+      </if>
+      <if test="mainWindDirection != null" >
+        main_wind_direction,
+      </if>
+      <if test="annualAverageWindSpeed != null" >
+        annual_average_wind_speed,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceAbb != null" >
+        #{provinceAbb,jdbcType=VARCHAR},
+      </if>
+      <if test="wfid != null" >
+        #{wfid,jdbcType=VARCHAR},
+      </if>
+      <if test="wfName != null" >
+        #{wfName,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null" >
+        #{capacity,jdbcType=VARCHAR},
+      </if>
+      <if test="modelType != null" >
+        #{modelType,jdbcType=VARCHAR},
+      </if>
+      <if test="wtype != null" >
+        #{wtype,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null" >
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAbb != null" >
+        #{ownerAbb,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStatus != null" >
+        #{projectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="installedCapacity != null" >
+        #{installedCapacity,jdbcType=DOUBLE},
+      </if>
+      <if test="signingDate != null" >
+        #{signingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="tower != null" >
+        #{tower,jdbcType=VARCHAR},
+      </if>
+      <if test="towerType != null" >
+        #{towerType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStage != null" >
+        #{projectStage,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="longitudeWindField != null" >
+        #{longitudeWindField,jdbcType=VARCHAR},
+      </if>
+      <if test="latitudeWindField != null" >
+        #{latitudeWindField,jdbcType=VARCHAR},
+      </if>
+      <if test="windZone != null" >
+        #{windZone,jdbcType=VARCHAR},
+      </if>
+      <if test="terrain != null" >
+        #{terrain,jdbcType=VARCHAR},
+      </if>
+      <if test="altitudeMaximun != null" >
+        #{altitudeMaximun,jdbcType=VARCHAR},
+      </if>
+      <if test="altitudeMinimun != null" >
+        #{altitudeMinimun,jdbcType=VARCHAR},
+      </if>
+      <if test="temperatureMaximun != null" >
+        #{temperatureMaximun,jdbcType=VARCHAR},
+      </if>
+      <if test="temperatureMinimun != null" >
+        #{temperatureMinimun,jdbcType=VARCHAR},
+      </if>
+      <if test="annualAverageThunderstorms != null" >
+        #{annualAverageThunderstorms,jdbcType=REAL},
+      </if>
+      <if test="mainWindDirection != null" >
+        #{mainWindDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="annualAverageWindSpeed != null" >
+        #{annualAverageWindSpeed,jdbcType=REAL},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <sql id="tableNameSql" >
+     md4x_wfinfo 
+  </sql>
+  <select id="searchListByCondition" resultMap="BaseResultMap" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    select 
+    <include refid="Base_Column_List" />
+    from  
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+    <if test="sortBuilder != null and sortBuilder != ''" >
+      order by ${sortBuilder} 
+    </if>
+  </select>
+  <select id="getCountByCondition" resultType="INTEGER" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    SELECT COUNT(*) FROM 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </select>
+  <delete id="deleteByCondition" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    delete from 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </delete>
+  <sql id="varSqlByCondition" >
+    <where >
+      <foreach collection="conditions" item="item" >
+        and ${item.name} 
+        <choose >
+          <when test="item.relation == 'like' or item.relation == 'not like'" >
+            ${item.relation} '%${item.value}%' 
+          </when>
+          <when test="item.relation == 'in' or item.relation == 'not in' " >
+            ${item.relation} (${item.value}) 
+          </when>
+          <when test="item.relation == 'is' or item.relation == 'is not'  " >
+            ${item.relation} ${item.value} 
+          </when>
+          <otherwise >
+            ${item.relation} #{item.value} 
+          </otherwise>
+        </choose>
+      </foreach>
+    </where>
+  </sql>
+  
+  	<sql id="varSql">
+		<where>
+			<if test=" mapConditions != null and mapConditions.wfid != null ">and
+				wfid like
+				concat('%',#{mapConditions.searchValue},'%')
+			</if>
+			<if test=" mapConditions != null and mapConditions.wfname != null and mapConditions.searchValue !=null ">and
+			  (
+				wf_name like concat('%',#{mapConditions.searchValue},'%')
+				or
+				wfid like
+				concat(#{mapConditions.searchValue},'%')
+			  )
+			</if>
+
+			<if test=" mapConditions != null and mapConditions.owner != null and mapConditions.searchValue !=null ">and
+				owner_abb like concat('%',#{mapConditions.searchValue},'%')
+			</if>
+
+			<if test=" mapConditions != null and mapConditions.type != null and mapConditions.searchValue !=null ">and
+				model_type = #{mapConditions.searchValue}
+			</if>
+
+			<if test=" mapConditions != null and mapConditions.province != null ">and
+				province like concat('%',#{mapConditions.province},'%')
+			</if>
+
+		</where>
+	</sql>
+
+	<select id="getCountByConditionWithPage" resultType="INTEGER"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		SELECT COUNT(DISTINCT wf_name) FROM
+		<include refid="tableNameSql" />
+		<include refid="varSql" />
+		<!-- wf_name is not null and wfid is not null -->
+	</select>
+
+	<select id="searchPageBy" resultMap="BaseResultMap"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		SELECT
+		wf_name ,CAST(SUM(installed_capacity) as DECIMAL(8,3) )as
+		capacity,wfid,model_type,owner,owner_abb,organization,project_status,province,region,tower,tower_type,signing_date,wtype,altitude_minimun,
+		altitude_maximun,main_wind_direction,terrain,province_abb,city,country,longitude_wind_field,latitude_wind_field
+		FROM
+		<include refid="tableNameSql" />
+		<include refid="varSql" />
+		<!-- wf_name is not null and wfid is not null -->
+		GROUP BY wf_name ORDER BY capacity DESC
+	</select>
+
+
+    <select id="searchList" resultMap="BaseResultMap"  parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+      select
+      <include refid="Base_Column_List" />
+      from
+      <include refid="tableNameSql" />
+      <include refid="varSql" />
+      <if test="sortBuilder != null and sortBuilder != ''" >
+        order by ${sortBuilder}
+      </if>
+  	</select>
+  	
+</mapper>
+

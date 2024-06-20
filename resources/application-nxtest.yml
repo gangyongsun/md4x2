@@ -1,0 +1,122 @@
+#开发环境
+server:
+   port: 8088
+   tomcat:
+      uri-encoding: UTF-8
+      max-threads: 1000
+      min-spare-threads: 30
+   connection-timeout: 5000ms
+   servlet:
+      context-path: /md4x
+spring:
+   messages:
+      basename: i18n/messages
+   encoding: UTF-8
+   aop:
+      auto: true
+   application:
+      name: MD4X2.0
+   servlet:
+      multipart:
+         enabled: true
+         max-file-size: 500MB
+         max-request-size: 500MB
+   datasource:
+      username: md4xmaster
+      password: abcd-1234
+      url: jdbc:mysql://dev-md4x-aurora.cmwyyp2qd6fi.rds.cn-northwest-1.amazonaws.com.cn:3306/md4x?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+      hikari:
+         connectionTimeout: 30000
+         idleTimeout: 60000
+         validationTimeout: 3000
+         maxLifetime: 120000
+         loginTimeout: 5
+         maximumPoolSize: 20
+         minimumIdle: 10
+      
+   redis:
+      host: gw-zhy-lp-dev-zuul.odmcwz.ng.0001.cnw1.cache.amazonaws.com.cn
+      port: 6379
+      database: 6
+      timeout: 5000
+      pool:
+         max-idle: 8
+         min-idle: 0
+         max-active: 8
+         max-wait: -1
+oa:
+   username: MD4X
+   password: MD4X@CA20200421
+   url: http://10.12.7.200:7111/rest/authentication/authenticate
+   get-employee-url: http://10.12.7.200:7111/rest/employeeApi/findEmployee
+
+#域密码认证   
+authdns:
+   #url: ldap://goldwind.org:389/
+   url: ldap://10.1.0.2:389/
+   baseDN: DC=goldwind,DC=org
+   bindDN: 3rdAppReadLdap
+   bindPWD: gw3p.2019**
+      
+#mybatis:
+mybatis-plus:
+   configuration:
+      map-underscore-to-camel-case: true
+      use-generated-keys: true
+   mapper-locations: classpath:mapper/*/*.xml
+   type-aliases-package: cn.com.goldwind.md4x.shiro.domain.entity,cn.com.goldwind.md4x.business.entity
+   config-locations: classpath:mybatis-config.xml
+   
+#http配置服务
+http:
+#最大连接数
+   maxTotal: 100
+#并发数
+   defaultMaxPerRoute: 20
+#创建连接的最长时间
+   connectTimeout: 1000
+#从连接池中获取到连接的最长时间
+   connectionRequestTimeout: 500
+#数据传输的最长时间
+   socketTimeout: 10000
+#提交请求前测试连接是否可用
+   staleConnectionCheckEnabled: true
+swagger:
+   enabled: true
+
+aws:
+   #ak,sk获取开关 false:从EC2 metdata中获取。 true:本地手动配置
+   credentialFlag: true #true,use ak,sk;  false,Ec2 metadata
+   region: cn-northwest-1
+   #ak 或 sk 其中一个配置为空或都为空，则从.aws/credentials中获取ak,sk。如果都不为空，则以此处配置为准。两种方式都可以，方便本地调式源码。
+   ak:
+   sk:
+   s3bucketName: md4x-platform            #s3桶名 测试桶 md4x-poc，正式:md4x-platform
+   s3bucketPrefix: batch_upload_parquet   #待处理的源数据s3桶前缀
+   #iamRole: arn:aws-cn:iam::701856272435:role/service-role/AWSGlueServiceRole-md4x-glue-role   #测试环境 创建crawler的角色
+   iamRole:  arn:aws-cn:iam::774564366034:role/AWSGlueServiceRole-md4x-glue-role    #正式环境 创建crawler的角色
+   workflowNamePrefix: md4x_wf_    #工作流名称前缀
+   triggerNamePrefix: md4x_tr_     #触发器名称前缀
+   crawlerNamePrefix: md4x_cr_     #crawler名称前缀
+   awsGlueDataCatalogPrefix: md4x_ #catalog database 和 table的名称前缀
+   jobName: mapping_column_spark_V5_R  #数据抽取的作业名称 md4x_test_job   poc-mapping  mapping_column_spark_V5_R
+   #s3PathAthenaQueryResult: test_md4x_result/md4x_aws_athena_result #测试环境 athena查询结果在s3上的存储路径 
+   s3PathAthenaQueryResult: athena_result/prod_result #正式环境 athena查询结果在s3上的存储路径
+   ecs:
+      taskRoleArn: arn:aws-cn:iam::774564366034:role/ecsTaskExecutionRole
+      taskExecutionRoleArn: arn:aws-cn:iam::774564366034:role/ecsTaskExecutionRole
+      cookieDomain: goldwind.com.cn # goldwind.com.cn
+      ecsClusterName: md4x-zeppelin   #fargate:md4x-zeppelin   ec2: md4x-zeppelin-ec2
+      taskSubnetId1: subnet-0b4db01a0162821f8
+      taskSubnetId2: subnet-0d37b6835f9371650
+      taskSecurityGroupId: sg-07fce6c99b3f64243
+      serviceLoadbalancerArn: arn:aws-cn:elasticloadbalancing:cn-northwest-1:774564366034:loadbalancer/app/md4x-zeppelin/8a5e3087b5f47880
+      serviceLoadbalancerListenerArn: arn:aws-cn:elasticloadbalancing:cn-northwest-1:774564366034:listener/app/md4x-zeppelin/8a5e3087b5f47880/814dbc07acb55d5b
+      deregistrationDelay: 30
+
+zeppelin:
+   env: prod   # prod,dev
+   #url: http://internal-md4x-zeppelin-1441652762.cn-northwest-1.elb.amazonaws.com.cn  # prod
+   url: http://md4x-notebook-test.goldwind.com.cn
+   zeppelinNotebookS3Bucket: zeppelin-notebook-nx
+   zeppelinNotebookS3Endpoint: https://s3.cn-northwest-1.amazonaws.com.cn

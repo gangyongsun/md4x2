@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.business.dao.datamart.ExparamDatamartMapper">
+	<resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datamart.ExparamDatamart">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="datamart_name" jdbcType="VARCHAR" property="datamartName" />
+		<result column="wfid" jdbcType="VARCHAR" property="wfid" />
+		<result column="wtid" jdbcType="VARCHAR" property="wtid" typeHandler="cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler" />
+		<result column="wfcount" jdbcType="INTEGER" property="wfcount" />
+		<result column="s3_path" jdbcType="VARCHAR" property="s3Path" />
+		<result column="athena_path" jdbcType="VARCHAR" property="athenaPath" />
+		<result column="athena_db" jdbcType="VARCHAR" property="athenaDb" />
+		<result column="athena_table" jdbcType="VARCHAR" property="athenaTable" />
+		<result column="file_size" jdbcType="VARCHAR" property="fileSize" />
+		<result column="operation_status" jdbcType="INTEGER" property="operationStatus" />
+		<result column="is_del" jdbcType="INTEGER" property="isDel" />
+		<result column="dm_status" jdbcType="INTEGER" property="dmStatus" />
+		<result column="ext_status" jdbcType="INTEGER" property="extStatus" />
+		<result column="file_type" jdbcType="VARCHAR" property="fileType" />
+		<result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+		<result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+		<result column="param_content" jdbcType="CHAR" property="paramContent" typeHandler="cn.com.goldwind.md4x.util.handler.AliJsonTypeHandler" />
+		<result column="remarks" jdbcType="VARCHAR" property="remarks" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="dataset_id" jdbcType="VARCHAR" property="datasetId" />
+		<result column="dataset_scope" jdbcType="VARCHAR" property="datasetScope" />
+		<result column="dataset_owner" jdbcType="VARCHAR" property="datasetOwner" />
+		<result column="bucket_name" jdbcType="VARCHAR" property="bucketName" />
+		<result column="wf_name" jdbcType="VARCHAR" property="wfName" />
+		<result column="data_integrity" jdbcType="VARCHAR" property="dataIntegrity" />
+		<result column="variable_num" jdbcType="INTEGER" property="variableNum" />
+	</resultMap>
+
+	<sql id="where_condition">
+		<where>
+			is_del=0
+			<if test="userName != null and userName != ''">
+				AND user_name = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="datasetScope != null">
+				AND dataset_scope = #{datasetScope,jdbcType=VARCHAR}
+			</if>
+			<if test="available != null and available == true">
+				AND file_size IS NOT NULL
+				AND ext_status = '100'
+			</if>
+		</where>
+	</sql>
+
+	<!-- 查询数据集列表 -->
+	<select id="pageListDatamart" parameterType="map" resultMap="BaseResultMap">
+		select * from sys_exparam_datamart
+		<include refid="where_condition" />
+		order by id desc
+		limit #{currIndex} , #{pageSize}
+	</select>
+	
+	<!-- 查询数据集列表数量 -->
+	<select id="count" parameterType="map" resultType="java.lang.Integer">
+		select count(*) from sys_exparam_datamart
+		<include refid="where_condition" />
+	</select>
+	
+	<!-- 通过id查询一条记录 -->
+	<select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select * from sys_exparam_datamart where id = #{id}
+	</select>
+	
+	<update id="updateDataExtractingStarttime"  parameterType="cn.com.goldwind.md4x.business.entity.datamart.ExparamDatamart">
+		update sys_exparam_datamart set data_extracting_starttime = #{dataExtractingStarttime}
+		where dataset_id = #{datasetId}
+	</update>
+	
+	<update id="updateDataExtractingEndtime"  parameterType="cn.com.goldwind.md4x.business.entity.datamart.ExparamDatamart">
+		update sys_exparam_datamart set data_extracting_endtime = #{dataExtractingEndtime}
+		where dataset_id = #{datasetId}
+	</update>
+
+   <!-- 条件查询 -->
+	<select id="searchListByCondition" resultMap="BaseResultMap"
+		parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		select *
+		from sys_exparam_datamart
+		<include refid="varSqlByCondition" />
+		<if test="sortBuilder != null and sortBuilder != ''">
+			order by ${sortBuilder}
+		</if>
+	</select>
+  
+    <sql id="varSqlByCondition" >
+    <where >
+      <foreach collection="conditions" item="item" >
+        and ${item.name} 
+        <choose >
+          <when test="item.relation == 'like' or item.relation == 'not like'" >
+            ${item.relation} '%${item.value}%' 
+          </when>
+          <when test="item.relation == 'in' or item.relation == 'not in' " >
+            ${item.relation} (${item.value}) 
+          </when>
+          <when test="item.relation == 'is' or item.relation == 'is not'  " >
+            ${item.relation} ${item.value} 
+          </when>
+          <otherwise >
+            ${item.relation} #{item.value} 
+          </otherwise>
+        </choose>
+      </foreach>
+    </where>
+  </sql>
+  
+	
+	
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.shiro.domain.mapper.RoleMapper">
+	<resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.shiro.domain.entity.Role">
+		<id column="roleId" jdbcType="INTEGER" property="roleId" />
+		<result column="available" jdbcType="BIT" property="available" />
+		<result column="deleted" jdbcType="BIT" property="deleted" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+	</resultMap>
+	<select id="listRolesByUserId" resultType="cn.com.goldwind.md4x.shiro.DTO.RoleDTO">
+		SELECT
+			sys_user_role.id userRoleId,
+			sys_user.userId,
+			sys_user.user_name userName,
+			sys_user.nick_name nickName,
+			sys_role.roleId,
+			sys_role.available,
+			sys_role.deleted,
+			sys_role.role_name roleName,
+			sys_role.description
+		FROM
+			sys_user,
+			sys_role,
+			sys_user_role
+		WHERE
+			sys_user.userId=sys_user_role.userId
+			and sys_role.roleId=sys_user_role.roleId
+			and sys_role.available=1
+			and sys_role.deleted=0
+			and sys_user.userId=#{userId}
+	</select>
+	<select id="listGroupRolesByUserId" resultType="cn.com.goldwind.md4x.shiro.DTO.RoleDTO">
+		SELECT
+			sys_user_role.id userRoleId,
+			sys_user.userId,
+			sys_user.user_name userName,
+			sys_user.nick_name nickName,
+			sys_role.roleId,
+			sys_role.available,
+			sys_role.deleted,
+			sys_role.role_name roleName,
+			sys_role.description,
+			sys_role_group.id roleGroupId,
+			sys_role_group.role_group_name roleGroupName,
+			sys_role_group.role_group_code roleGroupCode,
+			sys_role_group.description roleGroupDescription 
+		FROM
+			sys_user,
+			sys_user_role_group,
+			sys_role_group,
+			sys_role,
+			sys_user_role 
+		WHERE
+			sys_user.userId = sys_user_role.userId 
+			AND sys_role.roleId = sys_user_role.roleId 
+			AND sys_role_group.id = sys_role.roleGroupId 
+			AND sys_user.userId = sys_user_role_group.user_id 
+			AND sys_user_role_group.role_group_id = sys_role_group.id 
+			AND sys_user_role_group.at_group = 1 
+			AND sys_role.available = 1 
+			AND sys_role.deleted = 0 
+			AND sys_user.userId =#{userId}
+	</select>
+	<select id="listRolesByRoleGroupId" resultType="cn.com.goldwind.md4x.shiro.DTO.RoleDTO">
+		SELECT
+			sys_role.roleId,
+			sys_role.available,
+			sys_role.deleted,
+			sys_role.role_name roleName,
+			sys_role.description,
+			sys_role_group.id roleGroupId,
+			sys_role_group.role_group_name roleGroupName,
+			sys_role_group.role_group_code roleGroupCode,
+			sys_role_group.description roleGroupDescription
+		FROM
+			sys_role,
+			sys_role_group 
+		WHERE
+			sys_role.roleGroupId = sys_role_group.id 
+			AND sys_role.available = 1 
+			AND sys_role.deleted = 0 
+			AND sys_role_group.id = #{roleGroupId}
+	</select>
+	
+	<select id="getRoleList" resultType="cn.com.goldwind.md4x.shiro.DTO.RoleDTO">
+		SELECT
+			sys_role.roleId,
+			sys_role.available,
+			sys_role.deleted,
+			sys_role.role_name roleName,
+			sys_role.description,
+			sys_role_group.id roleGroupId,
+			sys_role_group.role_group_name roleGroupName,
+			sys_role_group.role_group_code roleGroupCode,
+			sys_role_group.description roleGroupDescription
+		FROM
+			sys_role,
+			sys_role_group 
+		WHERE
+			sys_role.roleGroupId = sys_role_group.id
+			AND sys_role.deleted =0
+	</select>
+	
+	<select id="getRoleListInPage" parameterType="map" resultType="cn.com.goldwind.md4x.shiro.DTO.RoleDTO">
+		SELECT
+			sys_role.roleId,
+			sys_role.available,
+			sys_role.deleted,
+			sys_role.role_name roleName,
+			sys_role.description,
+			sys_role_group.id roleGroupId,
+			sys_role_group.role_group_name roleGroupName,
+			sys_role_group.role_group_code roleGroupCode,
+			sys_role_group.description roleGroupDescription 
+		FROM
+			sys_role,
+			sys_role_group 
+		WHERE
+			sys_role.roleGroupId = sys_role_group.id 
+			AND sys_role.deleted =0
+			LIMIT #{currIndex} ,#{pageSize}
+	</select>
+	<select id="roleCount" resultType="java.lang.Integer">
+		SELECT
+			count(*) 
+		FROM
+			sys_role,
+			sys_role_group 
+		WHERE
+			sys_role.roleGroupId = sys_role_group.id 
+			AND sys_role.deleted = 0
+	</select>
+</mapper>

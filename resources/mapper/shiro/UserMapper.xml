@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.shiro.domain.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.shiro.domain.entity.User">
+		<id column="userId" jdbcType="INTEGER" property="userId" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="passwd" jdbcType="VARCHAR" property="password" />
+		<result column="available" jdbcType="BIT" property="available" />
+		<result column="goldwinder" jdbcType="BIT" property="goldwinder" />
+		<result column="deleted" jdbcType="BIT" property="deleted" />
+		<result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+		<result column="position_code" jdbcType="VARCHAR" property="positionCode" />
+		<result column="position_name" jdbcType="VARCHAR" property="positionName" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime" />
+		<result column="salt" jdbcType="VARCHAR" property="salt" />
+		<result column="department_code" jdbcType="VARCHAR" property="departmentCode" />
+		<result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+		<result column="center_code" jdbcType="VARCHAR" property="centerCode" />
+		<result column="center_name" jdbcType="VARCHAR" property="centerName" />
+	</resultMap>
+	<sql id="where_condition">
+		<where>
+			deleted = 0
+			<if test="findContent != null and findContent != ''">
+				AND (
+					user_name like "%"#{findContent}"%" or nick_name like "%"#{findContent}"%"
+				)
+			</if>
+			<if test="goldwinder != null">
+				AND (
+					goldwinder = #{goldwinder}
+				)
+			</if>
+		</where>
+	</sql>
+	<select id="getUserListInPage" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+			* 
+		FROM
+			sys_user 
+		<include refid="where_condition" />
+		ORDER BY create_time desc 
+		LIMIT #{currIndex} , #{pageSize}
+	</select>
+	<select id="userCount" resultType="java.lang.Integer" parameterType="map">
+		SELECT
+			count(*) 
+		FROM
+			sys_user 
+		<include refid="where_condition" />
+	</select>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+	<property name="LOG_HOME" value="/data/logs" />
+	<property name="pattern" value="[%d{yyyyMMdd HH:mm:ss}] [%-5level] [%logger{0}][%-3L][SeqId:%X{SeqId}] - %msg%n" />
+	<appender name="stdout"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				[%d{HH:mm:ss}] [%-5level] [%logger{0}][%-3L][SeqId:%X{SeqId}] - %msg%n
+			</pattern>
+		</layout>
+		<encoder>
+			<pattern>${pattern}</pattern>
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+		</encoder>
+	</appender>
+
+  	<appender name="main" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/main.log</File>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>
+				${LOG_HOME}/main%i.log
+			</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>20</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<Pattern>${pattern}</Pattern>
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<File>${LOG_HOME}/error.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>
+				${LOG_HOME}/error%i.log
+			</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>20</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<Pattern>${pattern}</Pattern>
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+		</encoder>
+	</appender>
+
+   <appender name="logAspect" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/logAspect.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>${LOG_HOME}/logAspect%i.log</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>20</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<Pattern>${pattern}</Pattern>
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+		</encoder>
+	</appender>
+
+    <!-- 用户行为日志 不要修改这个logger的日志级别,logstash会收集日志入到ES,分析用户行为-->
+ 	<logger name="cn.com.goldwind.md4x.config.aop" additivity="false" level="INFO">
+ 	    <appender-ref ref="logAspect" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+    <!-- md4x应用日志,dao层日志 -->
+ 	<logger name="cn.com.goldwind" additivity="false" level="INFO">
+		<appender-ref ref="main" />
+		<appender-ref ref="error" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+    <!-- dao层日志 -->
+    <logger name="dao" additivity="false" level="INFO">
+		<appender-ref ref="main" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+   <!-- 其他组件日志 -->
+  	<root level="INFO">
+		<appender-ref ref="main" />
+		<appender-ref ref="stdout" />
+	</root>
+	
+</configuration>

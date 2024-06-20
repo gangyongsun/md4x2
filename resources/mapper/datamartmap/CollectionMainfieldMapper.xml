@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.business.dao.datamart.CollectionMainfieldMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datamartmap.CollectionMainfield">
+		<id column="id" property="id" />
+		<result column="collection_id" property="collectionId" />
+		<result column="mainfield_id" property="mainfieldId" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, collection_id, mainfield_id
+	</sql>
+
+</mapper>

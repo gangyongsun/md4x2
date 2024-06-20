@@ -1,0 +1,9 @@
+%python
+import AthenaHelper as awsHelper
+con_dict = {}
+con_dict['host']='dev-md4x-aurora.cmwyyp2qd6fi.rds.cn-northwest-1.amazonaws.com.cn'
+con_dict['user']='md4xmaster'
+con_dict['pwd']='abcd-1234'
+con_dict['db']='md4x'
+sql = "select dataset_id,dataset_owner,user_name,datamart_name,wfid,wtid,athena_db,athena_table from sys_exparam_datamart where user_name ='$USERNAME$'   and  is_del=0 limit 100"
+z.show(awsHelper.__execQueryFromMysql(con_dict,sql))

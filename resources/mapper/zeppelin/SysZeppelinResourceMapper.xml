@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinResourceMapper">
+    <resultMap id="ResourceResultMap" type="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinResource">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="resource_name" property="resourceName" jdbcType="VARCHAR" />
+        <result column="task_flavor" property="taskFlavor" jdbcType="CHAR" />
+        <association property="image" column="image_id" select="cn.com.goldwind.md4x.business.dao.zeppelin.mapper.SysZeppelinImageMapper.selectByPrimaryKey" />
+    </resultMap>
+
+    <select id="selectResourceByUserName" resultMap="ResourceResultMap" parameterType="java.lang.String">
+        select id,user_name,resource_name,task_flavor,image_id
+        from sys_zeppelin_resource
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="getCountResourceByUserName" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinResource" resultType="java.lang.Integer">
+        select count(*) from sys_zeppelin_resource
+        where user_name = #{userName,jdbcType=VARCHAR} and task_flavor=#{taskFlavor,jdbcType=CHAR} and image_id=#{imageId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectResourceById" resultMap="ResourceResultMap" parameterType="java.lang.Integer">
+        select id,user_name,resource_name,task_flavor,image_id
+        from sys_zeppelin_resource
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectResourceId" resultType="java.lang.Integer">
+        select id
+        from sys_zeppelin_resource
+        where user_name = #{userName,jdbcType=VARCHAR} and task_flavor=#{taskFlavor,jdbcType=CHAR} and image_id=#{imageId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insertResource" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinResource" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_zeppelin_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="resourceName != null">
+                resource_name,
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor,
+            </if>
+            <if test="imageId != null">
+                image_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceName != null">
+                #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null">
+                #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null">
+                #{imageId,jdbcType=INTEGER},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="userName != null">
+                user_name = VALUES(user_name),
+            </if>
+            <if test="resourceName != null">
+                resource_name = VALUES(resource_name),
+            </if>
+            <if test="taskFlavor != null">
+                task_flavor = VALUES(task_flavor),
+            </if>
+            <if test="imageId != null">
+                image_id = VALUES(image_id),
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteResourceByid" parameterType="java.lang.Integer">
+        delete from sys_zeppelin_resource
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteResourceByUserName" parameterType="java.lang.String">
+        delete from sys_zeppelin_resource
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateResourceById" parameterType="cn.com.goldwind.md4x.business.entity.zeppelin.SysZeppelinResource">
+        update sys_zeppelin_resource
+        <set >
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceName != null" >
+                resource_name = #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskFlavor != null" >
+                task_flavor =  #{taskFlavor,jdbcType=CHAR},
+            </if>
+            <if test="imageId != null" >
+                image_id = #{imageId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+</mapper>

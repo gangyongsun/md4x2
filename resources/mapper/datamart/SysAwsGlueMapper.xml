@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.entity.datamart.SysAwsGlueMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datamart.SysAwsGlue" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="workflow_name" property="workflowName" jdbcType="VARCHAR" />
+    <result column="workflow_run_id" property="workflowRunId" jdbcType="VARCHAR" />
+    <result column="trigger_name" property="triggerName" jdbcType="VARCHAR" />
+    <result column="crawler_name" property="crawlerName" jdbcType="VARCHAR" />
+    <result column="database_name" property="databaseName" jdbcType="VARCHAR" />
+    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="dataset_id" property="datasetId" jdbcType="VARCHAR" />
+    <result column="dataset_scope" property="datasetScope" jdbcType="VARCHAR" />
+    <result column="dataset_owner" property="datasetOwner" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, workflow_name, workflow_run_id, trigger_name, crawler_name, database_name, table_name, 
+    dataset_id, dataset_scope, dataset_owner, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_aws_glue
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_aws_glue
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysAwsGlue" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_aws_glue (workflow_name, workflow_run_id, trigger_name, 
+      crawler_name, database_name, table_name, 
+      dataset_id, dataset_scope, dataset_owner, 
+      del_flag)
+    values (#{workflowName,jdbcType=VARCHAR}, #{workflowRunId,jdbcType=VARCHAR}, #{triggerName,jdbcType=VARCHAR}, 
+      #{crawlerName,jdbcType=VARCHAR}, #{databaseName,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, 
+      #{datasetId,jdbcType=VARCHAR}, #{datasetScope,jdbcType=VARCHAR}, #{datasetOwner,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysAwsGlue" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_aws_glue
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="workflowName != null" >
+        workflow_name,
+      </if>
+      <if test="workflowRunId != null" >
+        workflow_run_id,
+      </if>
+      <if test="triggerName != null" >
+        trigger_name,
+      </if>
+      <if test="crawlerName != null" >
+        crawler_name,
+      </if>
+      <if test="databaseName != null" >
+        database_name,
+      </if>
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="datasetId != null" >
+        dataset_id,
+      </if>
+      <if test="datasetScope != null" >
+        dataset_scope,
+      </if>
+      <if test="datasetOwner != null" >
+        dataset_owner,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="workflowName != null" >
+        #{workflowName,jdbcType=VARCHAR},
+      </if>
+      <if test="workflowRunId != null" >
+        #{workflowRunId,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerName != null" >
+        #{triggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="crawlerName != null" >
+        #{crawlerName,jdbcType=VARCHAR},
+      </if>
+      <if test="databaseName != null" >
+        #{databaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetId != null" >
+        #{datasetId,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetScope != null" >
+        #{datasetScope,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetOwner != null" >
+        #{datasetOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysAwsGlue" >
+    update sys_aws_glue
+    <set >
+      <if test="workflowName != null" >
+        workflow_name = #{workflowName,jdbcType=VARCHAR},
+      </if>
+      <if test="workflowRunId != null" >
+        workflow_run_id = #{workflowRunId,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerName != null" >
+        trigger_name = #{triggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="crawlerName != null" >
+        crawler_name = #{crawlerName,jdbcType=VARCHAR},
+      </if>
+      <if test="databaseName != null" >
+        database_name = #{databaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetId != null" >
+        dataset_id = #{datasetId,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetScope != null" >
+        dataset_scope = #{datasetScope,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetOwner != null" >
+        dataset_owner = #{datasetOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.goldwind.md4x.business.entity.datamart.SysAwsGlue" >
+    update sys_aws_glue
+    set workflow_name = #{workflowName,jdbcType=VARCHAR},
+      workflow_run_id = #{workflowRunId,jdbcType=VARCHAR},
+      trigger_name = #{triggerName,jdbcType=VARCHAR},
+      crawler_name = #{crawlerName,jdbcType=VARCHAR},
+      database_name = #{databaseName,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      dataset_id = #{datasetId,jdbcType=VARCHAR},
+      dataset_scope = #{datasetScope,jdbcType=VARCHAR},
+      dataset_owner = #{datasetOwner,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <sql id="tableNameSql" >
+     sys_aws_glue 
+  </sql>
+  <select id="searchListByCondition" resultMap="BaseResultMap" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    select 
+    <include refid="Base_Column_List" />
+    from  
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+    <if test="sortBuilder != null and sortBuilder != ''" >
+      order by ${sortBuilder} 
+    </if>
+  </select>
+  <select id="getCountByCondition" resultType="INTEGER" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    SELECT COUNT(*) FROM 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </select>
+  <delete id="deleteByCondition" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    delete from 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </delete>
+  <sql id="varSqlByCondition" >
+    <where >
+      <foreach collection="conditions" item="item" >
+        and ${item.name} 
+        <choose >
+          <when test="item.relation == 'like' or item.relation == 'not like'" >
+            ${item.relation} '%${item.value}%' 
+          </when>
+          <when test="item.relation == 'in' or item.relation == 'not in' " >
+            ${item.relation} (${item.value}) 
+          </when>
+          <when test="item.relation == 'is' or item.relation == 'is not'  " >
+            ${item.relation} ${item.value} 
+          </when>
+          <otherwise >
+            ${item.relation} #{item.value} 
+          </otherwise>
+        </choose>
+      </foreach>
+    </where>
+  </sql>
+</mapper>

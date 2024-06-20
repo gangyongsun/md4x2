@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.goldwind.md4x.business.dao.datamart.MainFieldMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datamartmap.MainField">
+		<id column="id" property="id" />
+		<result column="deid" property="deid" />
+		<result column="flag" property="flag" />
+		<result column="group_name" property="groupName" />
+		<result column="group_sort_id" property="groupSortId" />
+		<result column="iecpath" property="iecpath" />
+		<result column="model_entry_en" property="modelEntryEN" />
+		<result column="model_entry_cn" property="modelEntryCN" />
+		<result column="available" property="available" />
+		<result column="subordinate_type" property="subordinateType" />
+		<result column="weights" property="weights" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, deid, flag, group_name, group_sort_id, iecpath, model_entry_en, model_entry_cn, available, subordinate_type, weights
+	</sql>
+
+	<sql id="where_condition">
+		<where>
+			subordinate_type='master'
+			and flag !=0
+			<if test="findContent != null and findContent != ''">
+				AND (
+					model_entry_en like "%"#{findContent}"%" or model_entry_cn like "%"#{findContent}"%"
+				)
+			</if>
+			<if test="groupName != null and groupName != ''">
+				AND (
+					group_name = #{groupName}
+				)
+			</if>
+			<if test="available != null">
+				AND (
+					available = #{available}
+				)
+			</if>
+			<if test="needMaintince != null and needMaintince == true">
+				AND (
+					model_entry_cn is null
+				)
+			</if>
+			<if test="needMaintince != null and needMaintince == false">
+				AND (
+					model_entry_cn is not null
+				)
+			</if>
+		</where>
+	</sql>
+	<!-- 按条件分页查询主变量列表 -->
+	<select id="list" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		t_main_field
+		<include refid="where_condition" />
+		ORDER BY id
+		LIMIT #{currIndex} , #{pageSize}
+	</select>
+	<!-- 按条件查询主变量列表count -->
+	<select id="count" resultType="java.lang.Integer" parameterType="map">
+		SELECT
+		count(*)
+		FROM
+		t_main_field
+		<include refid="where_condition" />
+	</select>
+	
+	<!-- 根据协议号和组名查询抽取变量列表 -->
+	<select id="getMainFieldList" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+			DISTINCT t_main_field.*,t_iecpath.iecpath,t_iecpath.descrcn
+		FROM
+			t_iecpath,
+			t_main_field
+		WHERE
+			t_iecpath.main_field_id=t_main_field.id
+		AND
+			t_iecpath.id IN (				
+				select t_protocol_iecpath.iecpath_id 
+				from 
+					t_protocol,
+					t_protocol_iecpath
+				where 
+					t_protocol.id=t_protocol_iecpath.protocol_id
+				and 
+					t_protocol.protocol_id in
+				<foreach collection="protocolIds" open="(" separator="," close=")" item="protocolIds">
+					#{protocolIds}
+				</foreach>
+			)
+		AND t_main_field.group_name = #{groupName} 
+		AND t_main_field.subordinate_type='master'
+		AND t_main_field.flag != 0
+		AND t_main_field.model_entry_cn is not null
+		AND t_main_field.available = 1 
+		GROUP BY t_main_field.model_entry_cn 
+		ORDER BY t_main_field.weights
+	</select>
+</mapper>

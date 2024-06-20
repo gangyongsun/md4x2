@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecordMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecord" >
+    <id column="file_key" property="fileKey" jdbcType="VARCHAR" />
+    <result column="wfid" property="wfid" jdbcType="CHAR" />
+    <result column="wtid" property="wtid" jdbcType="CHAR" />
+    <result column="year" property="year" jdbcType="CHAR" />
+    <result column="month" property="month" jdbcType="CHAR" />
+    <result column="day" property="day" jdbcType="CHAR" />
+    <result column="file_type" property="fileType" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    file_key, wfid, wtid, year, month, day, file_type, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from aws_trans_record
+    where file_key = #{fileKey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from aws_trans_record
+    where file_key = #{fileKey,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecord" >
+    insert into aws_trans_record (file_key, wfid, wtid, 
+      year, month, day, file_type, 
+      update_time)
+    values (#{fileKey,jdbcType=VARCHAR}, #{wfid,jdbcType=CHAR}, #{wtid,jdbcType=CHAR}, 
+      #{year,jdbcType=CHAR}, #{month,jdbcType=CHAR}, #{day,jdbcType=CHAR}, #{fileType,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecord" >
+    insert into aws_trans_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fileKey != null" >
+        file_key,
+      </if>
+      <if test="wfid != null" >
+        wfid,
+      </if>
+      <if test="wtid != null" >
+        wtid,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="day != null" >
+        day,
+      </if>
+      <if test="fileType != null" >
+        file_type,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fileKey != null" >
+        #{fileKey,jdbcType=VARCHAR},
+      </if>
+      <if test="wfid != null" >
+        #{wfid,jdbcType=CHAR},
+      </if>
+      <if test="wtid != null" >
+        #{wtid,jdbcType=CHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=CHAR},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=CHAR},
+      </if>
+      <if test="day != null" >
+        #{day,jdbcType=CHAR},
+      </if>
+      <if test="fileType != null" >
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecord" >
+    update aws_trans_record
+    <set >
+      <if test="wfid != null" >
+        wfid = #{wfid,jdbcType=CHAR},
+      </if>
+      <if test="wtid != null" >
+        wtid = #{wtid,jdbcType=CHAR},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=CHAR},
+      </if>
+      <if test="month != null" >
+        month = #{month,jdbcType=CHAR},
+      </if>
+      <if test="day != null" >
+        day = #{day,jdbcType=CHAR},
+      </if>
+      <if test="fileType != null" >
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where file_key = #{fileKey,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecord" >
+    update aws_trans_record
+    set wfid = #{wfid,jdbcType=CHAR},
+      wtid = #{wtid,jdbcType=CHAR},
+      year = #{year,jdbcType=CHAR},
+      month = #{month,jdbcType=CHAR},
+      day = #{day,jdbcType=CHAR},
+      file_type = #{fileType,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where file_key = #{fileKey,jdbcType=VARCHAR}
+  </update>
+  <sql id="tableNameSql" >
+     aws_trans_record 
+  </sql>
+  <select id="searchListByCondition" resultMap="BaseResultMap" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    select 
+    <include refid="Base_Column_List" />
+    from  
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+    <if test="sortBuilder != null and sortBuilder != ''" >
+      order by ${sortBuilder} 
+    </if>
+  </select>
+  <select id="getCountByCondition" resultType="INTEGER" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    SELECT COUNT(*) FROM 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </select>
+  <delete id="deleteByCondition" parameterType="cn.com.goldwind.md4x.mybatis.Condition" >
+    delete from 
+    <include refid="tableNameSql" />
+    <include refid="varSqlByCondition" />
+  </delete>
+  <sql id="varSqlByCondition" >
+    <where >
+      <foreach collection="conditions" item="item" >
+        and ${item.name} 
+        <choose >
+          <when test="item.relation == 'like' or item.relation == 'not like'" >
+            ${item.relation} '%${item.value}%' 
+          </when>
+          <when test="item.relation == 'in' or item.relation == 'not in' " >
+            ${item.relation} (${item.value}) 
+          </when>
+          <when test="item.relation == 'is' or item.relation == 'is not'  " >
+            ${item.relation} ${item.value} 
+          </when>
+          <otherwise >
+            ${item.relation} #{item.value} 
+          </otherwise>
+        </choose>
+      </foreach>
+    </where>
+  </sql>
+  
+  
+  	<select id="getAllByMonth" resultType="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecord" parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		select month ,count(*) as count  from aws_trans_record  where wfid = #{mapConditions.wfid} and day <![CDATA[ >= ]]> #{mapConditions.startDate} and day <![CDATA[ < ]]> #{mapConditions.endDate} group by month
+	</select>
+	
+	
+	<select id="getByMonth" resultType="cn.com.goldwind.md4x.business.entity.datacenter.AwsTransRecord" parameterType="cn.com.goldwind.md4x.mybatis.Condition">
+		SELECT a.wtid,a.month,count(*) AS count FROM
+		(
+		  SELECT  wtid,day,month FROM  aws_trans_record WHERE wfid = #{mapConditions.wfid} AND wtid IN  ${mapConditions.wtids}  and day>=#{mapConditions.startDate} and day <![CDATA[ < ]]> #{mapConditions.endDate} GROUP BY wtid,day
+		) a
+		GROUP BY a.wtid,a.month
+	</select>
+	
+</mapper>
